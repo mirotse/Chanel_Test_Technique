@@ -36,3 +36,23 @@ def get_top_matches_for_each_job(similarity_matrix, top_n=10):
         sorted_indices = similarity_matrix[i].argsort()[::-1][:top_n]  # Sort and get top indices
         top_matches[f'Job_{i+1}'] = sorted_indices
     return top_matches
+
+
+######## SCORE TOP 10 ################
+def display_top_matches_with_scores(top_matches, similarity_matrix):
+    """
+    Display the top matching CVs for each job along with their similarity scores.
+
+    :param top_matches: A dictionary where keys are job identifiers and values are arrays of top CV indices.
+    :param similarity_matrix: The matrix containing similarity scores.
+    """
+    for job, top_indices in top_matches.items():
+        print(f"Top Matches for {job} with Scores:")
+
+        # Assuming job format is 'Job_X' where X is the numeric index
+        job_index = int(job.split('_')[1]) - 1  
+
+        for index in top_indices:
+            score = similarity_matrix[job_index, index]
+            print(f"CV {index}: Score = {score}")
+        print()  # For a blank line between different jobs
